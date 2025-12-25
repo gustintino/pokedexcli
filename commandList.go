@@ -3,24 +3,11 @@ package main
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(cfg *config) error
+	callback    func(cfg *Config) error
 }
 
-type config struct {
-	next     string
-	previous string
-}
-
-var commands map[string]cliCommand
-var cfg config
-
-func initCommands() {
-	cfg = config{
-		next:     "https://pokeapi.co/api/v2/location-area?offset=0",
-		previous: "https://pokeapi.co/api/v2/location-area?offset=0",
-	}
-
-	commands = map[string]cliCommand{
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
 		"exit": {
 			name:        "Exit",
 			description: "Exit the Pokedex",

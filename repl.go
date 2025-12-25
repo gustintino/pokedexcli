@@ -7,9 +7,11 @@ import (
 	"strings"
 )
 
-func startRepl() {
-	scanner := bufio.NewScanner(os.Stdin)
+func startRepl(cfg Config) {
 	fmt.Println("Welcome to the Pokedex!")
+
+	scanner := bufio.NewScanner(os.Stdin)
+	commands := getCommands()
 
 	for {
 		fmt.Print("Pokedex > ")
