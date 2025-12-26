@@ -14,7 +14,7 @@ type Config struct {
 }
 
 func main() {
-	baseLink := "https://pokeapi.co/api/v2/location-area"
+	baseLink := "https://pokeapi.co/api/v2/location-area?offset=0&limit=20"
 	cfg := Config{
 		client:   pokeapi.NewClient(5 * time.Second),
 		next:     &baseLink,

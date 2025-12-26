@@ -12,13 +12,13 @@ func (c Client) GetLocationAreas(url string) (LocationAreasResponse, error) {
 	if val, ok := c.cache.Get(url); ok {
 		var result LocationAreasResponse
 		if err := json.Unmarshal(val, &result); err != nil {
-			fmt.Println("Value was received from cache !!!!")
 			return LocationAreasResponse{}, fmt.Errorf("error while unmarshalling: %w", err)
 		}
 
+		// fmt.Println("Value was received from cache !!!!")
 		return result, nil
 	}
-	fmt.Println("VALUE WAS NOT RECEIVED FROM CACHE DUBBMADSSSSSS!!!121")
+	// fmt.Println("VALUE WAS NOT RECEIVED FROM CACHE DUBBMADSSSSSS!!!121")
 
 	// create a new api call if not in cache
 	req, err := http.NewRequest("GET", url, nil)
