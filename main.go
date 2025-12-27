@@ -6,6 +6,7 @@ import (
 	"github.com/gustintino/pokedexcli/internal/pokeapi"
 )
 
+// TODO: load the commands into the config here in main?
 type Config struct {
 	client *pokeapi.Client
 
@@ -20,6 +21,5 @@ func main() {
 		next:     &baseLink,
 		previous: nil,
 	}
-	getCommands()
 	startRepl(cfg)
 }

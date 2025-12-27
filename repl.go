@@ -23,9 +23,14 @@ func startRepl(cfg Config) {
 			continue
 		}
 		command := cleanInput[0]
+		args := []string{}
+
+		if len(cleanInput) >= 1 {
+			args = cleanInput[1:]
+		}
 
 		if value, ok := commands[command]; ok {
-			err := value.callback(&cfg)
+			err := value.callback(&cfg, args)
 			if err != nil {
 				fmt.Println(fmt.Errorf("error occured: %w", err))
 			}

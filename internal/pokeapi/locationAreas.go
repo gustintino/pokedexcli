@@ -14,7 +14,6 @@ func (c Client) GetLocationAreas(url string) (LocationAreasResponse, error) {
 		if err := json.Unmarshal(val, &result); err != nil {
 			return LocationAreasResponse{}, fmt.Errorf("error while unmarshalling: %w", err)
 		}
-
 		// fmt.Println("Value was received from cache !!!!")
 		return result, nil
 	}
