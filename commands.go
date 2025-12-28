@@ -2,11 +2,39 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"time"
 )
 
-// TODO: need to add the pokedex
+func commandInspect(cfg *Config, args []string) error {
+	if len(args) != 1 {
+		return fmt.Errorf("Inspect command usage: inspect <pokemon_name>")
+	}
+	name := args[0]
+
+	info, ok := cfg.pokedex[name]
+	if !ok {
+		fmt.Println("You have not caught that Pokemon yet")
+		return nil
+	}
+
+	fmt.Printf("Name: %s\n", info.Name)
+	fmt.Printf("Height: %d\n", info.Height)
+	fmt.Printf("Weight: %d\n", info.Weight)
+	fmt.Printf("Stats:\n")
+	for _, each := range info.Stats {
+		fmt.Printf("    - %s: %d\n", each.Stat.Name, each.BaseStat)
+	}
+	fmt.Printf("Types: \n")
+	for _, each := range info.Types {
+		fmt.Printf("    - %s\n", each.Type.Name)
+	}
+
+	return nil
+}
+
+// TODO: make this pretty cause it's a mess
 func commandCatch(cfg *Config, args []string) error {
 	if len(args) != 1 {
 		return fmt.Errorf("Explore command usage: explore <area_name>")
@@ -18,10 +46,32 @@ func commandCatch(cfg *Config, args []string) error {
 	}
 
 	fmt.Printf("Throwing a Pokeball at %s...\n", args[0])
-	fmt.Printf("%s's base experience is: %d\n", args[0], res.BaseExperience)
+	// fmt.Printf("%s's base experience is: %d\n", args[0], res.BaseExperience)
 	time.Sleep(1 * time.Second) // it can't be instant...
-	// gamba here..
-	fmt.Printf("%s was caught!\n", args[0])
+	chance := int(80 / (float64(res.BaseExperience) / 100.0))
+	// fmt.Println("[DEBUG]: chance is ", chance)
+	if chance >= 100 { // instant catch
+		fmt.Printf("%s was caught!\n", args[0])
+		info, err := cfg.client.PokemonInfo(args[0])
+		if err != nil {
+			return err
+		}
+		cfg.pokedex[args[0]] = info
+	} else { // otherwise gamble
+		random := rand.New(rand.NewSource(time.Now().UnixNano()))
+		gamba := random.Intn(100)
+		if gamba <= chance {
+			fmt.Printf("%s was caught!\n", args[0])
+			info, err := cfg.client.PokemonInfo(args[0])
+			if err != nil {
+				return err
+			}
+			cfg.pokedex[args[0]] = info
+		} else {
+			fmt.Printf("%s escaped!\n", args[0])
+		}
+
+	}
 
 	return nil
 }
