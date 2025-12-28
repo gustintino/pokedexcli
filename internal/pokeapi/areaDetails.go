@@ -16,6 +16,7 @@ func (c Client) AreaDetails(areaName string) (AreaDetailsResponse, error) {
 
 	// 1. First check if area details are in cache
 	if data, ok := c.cache.Get(url); ok {
+		// NOTE: i could probably cook something up with generics, but it's probably more trouble than worth. maybe one day
 		var result AreaDetailsResponse
 		if err := json.Unmarshal(data, &result); err != nil {
 			return AreaDetailsResponse{}, fmt.Errorf("error unmarshalling AreaDetails data: %w", err)

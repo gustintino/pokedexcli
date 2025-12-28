@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func debug(msg string) {
+func debugHelper(msg string) {
 	fmt.Printf("[Debug]: ")
 	fmt.Printf("%s", msg)
 }

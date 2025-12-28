@@ -3,14 +3,33 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
-func commandExplore(cfg *Config, args []string) error {
-	if len(args) < 1 {
+// TODO: need to add the pokedex
+func commandCatch(cfg *Config, args []string) error {
+	if len(args) != 1 {
 		return fmt.Errorf("Explore command usage: explore <area_name>")
 	}
 
-	// FIXME: something is out of range
+	res, err := cfg.client.PokemonInfo(args[0])
+	if err != nil {
+		return fmt.Errorf("error getting pokemon info: %w", err)
+	}
+
+	fmt.Printf("Throwing a Pokeball at %s...\n", args[0])
+	fmt.Printf("%s's base experience is: %d\n", args[0], res.BaseExperience)
+	time.Sleep(1 * time.Second) // it can't be instant...
+	// gamba here..
+	fmt.Printf("%s was caught!\n", args[0])
+
+	return nil
+}
+
+func commandExplore(cfg *Config, args []string) error {
+	if len(args) != 1 {
+		return fmt.Errorf("Explore command usage: explore <area_name>")
+	}
 
 	res, err := cfg.client.AreaDetails(args[0])
 	if err != nil {
