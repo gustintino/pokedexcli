@@ -43,5 +43,10 @@ func getCommands() map[string]cliCommand {
 			description: "Inspect a Pokemon in your Pokedex. It must be caught first. Lists name, weight, height, stats and type(s)",
 			callback:    commandInspect,
 		},
+		"pokedex": {
+			name:        "Pokedex",
+			description: "Lists all the Pokemon currently in your Pokedex",
+			callback:    commandPokedex,
+		},
 	}
 }

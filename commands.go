@@ -7,6 +7,19 @@ import (
 	"time"
 )
 
+func commandPokedex(cfg *Config, args []string) error {
+	if len(args) != 0 {
+		return fmt.Errorf("This command doesn't take any arguments.")
+	}
+
+	fmt.Printf("Your Pokedex: \n")
+	for _, each := range cfg.pokedex {
+		fmt.Printf("  - %s\n", each.Name)
+	}
+
+	return nil
+}
+
 func commandInspect(cfg *Config, args []string) error {
 	if len(args) != 1 {
 		return fmt.Errorf("Inspect command usage: inspect <pokemon_name>")
